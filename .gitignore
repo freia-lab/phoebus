@@ -126,3 +126,6 @@ docs/source/applications.rst
 docs/source/preference_properties.rst
 docs/source/services.rst
 
+# FREIA specific
+phoebus-product/phoebus-*.zip
+
