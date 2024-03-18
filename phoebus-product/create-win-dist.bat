@@ -15,7 +15,6 @@ for /f "tokens=2-4 delims=/ " %%a in ('date /t') do (
 )
 
 set "TODAY=%YYYY%-%MM%-%DD%"
-
 rem Create settings.ini file
 (
     echo # Self-update
@@ -58,12 +57,11 @@ powershell Expand-Archive -Path "phoebus-product\phoebus-linux.zip" -Destination
 
 set "ZIPFOLDER=temp_extracted"
 set "NEWZIP=phoebus-%VERSION%"
-mkdir %NEWZIP%\doc
 mkdir %NEWZIP%\lib
 
 echo Copying all needed files to %NEWZIP%
 
-xcopy %ZIPFOLDER%\%NEWZIP%\doc %NEWZIP%\doc
+move /Y %ZIPFOLDER%\%NEWZIP%\doc %NEWZIP%
 copy %ZIPFOLDER%\%NEWZIP%\settings_template.ini %NEWZIP%
 copy phoebus-product\target\lib\* %NEWZIP%\lib
 copy phoebus-product\site_splash.png %NEWZIP%
@@ -73,8 +71,8 @@ copy phoebus-product\target\product-*jar %NEWZIP%
 
 rd /s /q temp_extracted
 rem Create new phoebus-win.zip archive
-powershell Compress-Archive -Path "phoebus-%VERSION%" -DestinationPath ".\phoebus-product\phoebus-win.zip" -Force
 
+powershell Compress-Archive -Path "phoebus-%VERSION%\*" -DestinationPath ".\phoebus-product\phoebus-win.zip" -Force
 rem Clean up temporary files
 echo Clean up temporary files
 rd /s /q temp_extracted
